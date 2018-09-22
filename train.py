@@ -134,13 +134,13 @@ lb = LabelEncoder()
 y_train = np_utils.to_categorical(lb.fit_transform(y_train))
 y_test = np_utils.to_categorical(lb.fit_transform(y_test))
 
-x_traincnn =np.expand_dims(X_train, axis=2)
-x_testcnn= np.expand_dims(X_test, axis=2)
+x_traincnn = np.expand_dims(X_train, axis=2)
+x_testcnn = np.expand_dims(X_test, axis=2)
 
 model_shape = X_train[0].shape
 
 print("[INFO] Setting up model...")
-model = Conv1DNN(model_shape[0], KERNEL_SIZE)
+model = Conv1DNN.build(model_shape[0], 14, KERNEL_SIZE)
 
 opt = keras.optimizers.rmsprop(lr=LR, decay=LR / EPOCHS) if OPTIMIZER == 'RMS' else Adam(lr=LR, decay=LR / EPOCHS)
 
