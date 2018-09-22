@@ -27,6 +27,8 @@ from sklearn.preprocessing import LabelEncoder, normalize
 from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle
 
+from models.conv1d import Conv1DNN
+
 import argparse
 import pickle
 import os
@@ -138,32 +140,7 @@ x_testcnn= np.expand_dims(X_test, axis=2)
 model_shape = X_train[0].shape
 
 print("[INFO] Setting up model...")
-model = Sequential()
-
-model.add(Conv1D(model_shape[0], KERNEL_SIZE,padding='same',
-                 input_shape=(model_shape[0], 1)))
-model.add(Activation('relu'))
-
-model.add(Conv1D(model_shape[0], KERNEL_SIZE, padding='same'))
-model.add(Activation('relu'))
-model.add(BatchNormalization())
-
-# model.add(Dropout(0.1))
-model.add(MaxPooling1D(pool_size=(8)))
-
-model.add(Conv1D(model_shape[0], KERNEL_SIZE, padding='same',))
-model.add(Activation('relu'))
-model.add(BatchNormalization(axis=1))
-
-model.add(Dropout(0.2))
-
-model.add(Conv1D(model_shape[0], KERNEL_SIZE, padding='same',))
-model.add(Activation('relu'))
-model.add(BatchNormalization(axis=1))
-
-model.add(Flatten())
-model.add(Dense(14))
-model.add(Activation('softmax'))
+model = Conv1DNN(model_shape[0], KERNEL_SIZE)
 
 opt = keras.optimizers.rmsprop(lr=LR, decay=LR / EPOCHS) if OPTIMIZER == 'RMS' else Adam(lr=LR, decay=LR / EPOCHS)
 
