@@ -31,6 +31,7 @@ class Conv1DNN:
         model.add(BatchNormalization(axis=1))
 
         model.add(Flatten())
+        print('NUm Classes', num_classes)
         model.add(Dense(num_classes))
         model.add(Activation('softmax'))
 

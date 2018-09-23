@@ -23,7 +23,7 @@ from keras.optimizers import Adam
 import pandas as pd
 import numpy as np
 
-from sklearn.preprocessing import LabelEncoder, normalize
+from sklearn.preprocessing import LabelBinarizer, normalize
 from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle
 
@@ -129,10 +129,10 @@ y_train = np.array(trainlabel)
 X_test = np.array(testfeatures)
 y_test = np.array(testlabel)
 
-lb = LabelEncoder()
+lb = LabelBinarizer()
 
-y_train = np_utils.to_categorical(lb.fit_transform(y_train))
-y_test = np_utils.to_categorical(lb.fit_transform(y_test))
+y_train = lb.fit_transform(y_train)
+y_test = lb.fit_transform(y_test)
 
 x_traincnn = np.expand_dims(X_train, axis=2)
 x_testcnn = np.expand_dims(X_test, axis=2)
@@ -140,6 +140,7 @@ x_testcnn = np.expand_dims(X_test, axis=2)
 model_shape = X_train[0].shape
 
 print("[INFO] Setting up model...")
+print('Model shape', model_shape)
 model = Conv1DNN.build(model_shape[0], 14, KERNEL_SIZE)
 
 opt = keras.optimizers.rmsprop(lr=LR, decay=LR / EPOCHS) if OPTIMIZER == 'RMS' else Adam(lr=LR, decay=LR / EPOCHS)
