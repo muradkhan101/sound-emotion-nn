@@ -24,7 +24,7 @@ from keras.optimizers import Adam
 import pandas as pd
 import numpy as np
 
-from sklearn.preprocessing import LabelBinarizer, normalize
+from sklearn.preprocessing import LabelEncoder, normalize
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle
@@ -124,7 +124,7 @@ else:
 
 shuffled = shuffle(soundData)
 
-lb = LabelBinarizer()
+lb = LabelEncoder()
 encodedLabels = lb.fit_transform(labels)
 print('[INFO] Unique labels:', len(lb.classes_))
 
