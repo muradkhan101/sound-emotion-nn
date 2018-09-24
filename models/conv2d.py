@@ -16,12 +16,23 @@ class Conv2DNN:
         model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
+
+        model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
         model.add(Dropout(0.25))
 
+        model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+        
         model.add(Conv2D(12, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
         model.add(Dropout(0.25))
+
+
 
         model.add(MaxPooling2D(pool_size=(2, 2)))
 
@@ -39,6 +50,24 @@ class Conv2DNN:
         model.add(Activation('softmax'))
 
         return model
+    
+    @staticmethod
+    def countLayers(model):
+        CONV_LAYERS = 0
+        DROPOUT_LAYERS = 0
+        currLayer = 0
+        while True:
+            try:
+                layer = model.get_layer(currLayer)
+                config = layer.get_config()
+                name = config['name']
+                if name[:4] == 'conv':
+                    CONV_LAYERS = CONV_LAYERS + 1
+                elif name[:7] == 'dropout':
+                    DROPOUT_LAYERS = DROPOUT_LAYERS + 1
+            except:
+                return CONV_LAYERS, DROPOUT_LAYERS
+            
 
 def getLastLayerInputShape(model):
     last_layer = model.get_layer(index=-1)

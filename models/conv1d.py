@@ -14,6 +14,10 @@ class Conv1DNN:
         model.add(Activation('relu'))
 
         model.add(Conv1D(input_shape, kernel_size, padding='same'))
+        last_layer = model.get_layer(index=-1)
+        config = last_layer.get_config()
+        print('Layer: {} has no units'.format(config['name']))
+
         model.add(Activation('relu'))
         model.add(BatchNormalization())
 
@@ -25,7 +29,10 @@ class Conv1DNN:
         model.add(BatchNormalization(axis=1))
 
         model.add(Dropout(0.2))
-
+        last_layer = model.get_layer(index=-1)
+        config = last_layer.get_config()
+        print('Layer: {} has no units'.format(config['name']))
+        
         model.add(Conv1D(input_shape, kernel_size, padding='same',))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=1))

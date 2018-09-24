@@ -155,7 +155,9 @@ f = open(args["labelbin"], "wb")
 f.write(pickle.dumps(lb))
 f.close()
 
-plot_file_name = 'r{0}_l{1:.1e}_b{2}_k{3}_conv2d{4}_{5}_{6}_{7:.3f}fs_aug.png'.format(EPOCHS, LR, BATCH_SIZE, KERNEL_SIZE, 3, OPTIMIZER, DATASET, FRAME_SIZE)
+CONV_COUNT, DROPOUT_COUNT = Conv2DNN.countLayers(model)
+
+plot_file_name = 'r{0}_l{1:.1e}_b{2}_k{3}_conv2d{4}-{5}_{6}_{7}_{8:.3f}fs_aug.png'.format(EPOCHS, LR, BATCH_SIZE, KERNEL_SIZE, CONV_COUNT, DROPOUT_COUNT, OPTIMIZER, DATASET, FRAME_SIZE)
 
 # Loss History
 plt.plot(cnnhistory.history['loss'])
