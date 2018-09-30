@@ -17,13 +17,21 @@ class Conv2DNN:
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
+        model.add(Conv2D(8, (3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
         model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
+        model.add(Conv2D(8, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
         model.add(Dropout(0.25))
 
-        model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Conv2D(8, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
@@ -31,16 +39,14 @@ class Conv2DNN:
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
         model.add(Dropout(0.25))
-
-
 
         model.add(MaxPooling2D(pool_size=(2, 2)))
         
-        model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Conv2D(8, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
-        model.add(Conv2D(12, (3, 3), padding='same'))
+        model.add(Conv2D(16, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
         model.add(Dropout(0.25))
@@ -67,14 +73,16 @@ class Conv2DNN:
         currLayer = 0
         while True:
             try:
-                layer = model.get_layer(currLayer)
+                layer = model.get_layer(index=currLayer)
                 config = layer.get_config()
                 name = config['name']
                 if 'conv' in name:
                     CONV_LAYERS = CONV_LAYERS + 1
                 elif 'dropout' in name:
                     DROPOUT_LAYERS = DROPOUT_LAYERS + 1
-            except:
+                currLayer += 1
+            except Exception as err:
+                print(err)
                 return CONV_LAYERS, DROPOUT_LAYERS
             
 

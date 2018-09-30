@@ -24,7 +24,7 @@ from keras.optimizers import Adam
 import pandas as pd
 import numpy as np
 
-from sklearn.preprocessing import LabelEncoder, normalize
+from sklearn.preprocessing import LabelBinarizer, normalize
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.utils import shuffle
@@ -124,7 +124,7 @@ else:
 
 shuffled = shuffle(soundData)
 
-lb = LabelEncoder()
+lb = LabelBinarizer()
 encodedLabels = lb.fit_transform(labels)
 print('[INFO] Unique labels:', len(lb.classes_))
 
@@ -138,6 +138,8 @@ model_shape = (soundData.shape[1], soundData.shape[2], 1)
 
 print("[INFO] Setting up model...")
 model = Conv2DNN.build(model_shape, len(lb.classes_))
+
+CONV_COUNT, DROPOUT_COUNT = Conv2DNN.countLayers(model)
 
 opt = keras.optimizers.rmsprop(lr=LR, decay=LR / EPOCHS) if OPTIMIZER == 'RMS' else Adam(lr=LR, decay=LR / EPOCHS)
 
@@ -183,8 +185,7 @@ preds = preds.astype(int).flatten()
 
 labelPreds = (lb.inverse_transform(preds))
 
-print(labelPreds)
-actual = testY.argmax()
+actual = y_test.argmax(axis=1)
 actual = actual.astype(int).flatten()
 actual = (lb.inverse_transform(actual))
 

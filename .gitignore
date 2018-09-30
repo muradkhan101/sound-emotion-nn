@@ -102,3 +102,11 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Random Stuff
+*Data/*
+*.pickle
+*.npy
+*.model
+plots/
+data_gen/
