@@ -48,8 +48,8 @@ args = vars(ap.parse_args())
 FRAME_SIZE = 5.e-2 #msecs
 KERNEL_SIZE = 12
 BATCH_SIZE = 32
-EPOCHS = 500
-LR = 1.e-6
+EPOCHS = 750
+LR = 5.e-6
 DATASET = args['dataset']
 OPTIMIZER = 'ADAM'
 
@@ -159,7 +159,7 @@ f.close()
 
 CONV_COUNT, DROPOUT_COUNT = Conv2DNN.countLayers(model)
 
-plot_file_name = 'r{0}_l{1:.1e}_b{2}_k{3}_conv2d{4}-{5}_{6}_{7}_{8:.3f}fs_aug.png'.format(EPOCHS, LR, BATCH_SIZE, KERNEL_SIZE, CONV_COUNT, DROPOUT_COUNT, OPTIMIZER, DATASET, FRAME_SIZE)
+plot_file_name = 'r{0}_l{1:.1e}_b{2}_k{3}_conv2d{4}-{5}_{6}_{7}_{8:.1e}fs_aug.png'.format(EPOCHS, LR, BATCH_SIZE, KERNEL_SIZE, CONV_COUNT, DROPOUT_COUNT, OPTIMIZER, DATASET, FRAME_SIZE)
 
 # Loss History
 plt.plot(cnnhistory.history['loss'])

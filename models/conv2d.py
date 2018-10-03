@@ -17,6 +17,16 @@ class Conv2DNN:
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
+        model.add(Conv2D(8, (3, 3), padding='same', input_shape=shape))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
+        model.add(Conv2D(8, (3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
+        model.add(Dropout(0.25))
+        
         model.add(Conv2D(8, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
@@ -46,6 +56,15 @@ class Conv2DNN:
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
 
+
+        model.add(Conv2D(10, (3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+
+        model.add(Conv2D(12, (3, 3), padding='same'))
+        model.add(Activation('relu'))
+        model.add(BatchNormalization(axis=-1))
+        
         model.add(Conv2D(16, (3, 3), padding='same'))
         model.add(Activation('relu'))
         model.add(BatchNormalization(axis=-1))
