@@ -185,7 +185,7 @@ preds = preds.astype(int).flatten()
 
 labelPreds = (lb.inverse_transform(preds))
 
-actual = y_test.argmax(axis=1)
+actual = testY.argmax(axis=1)
 actual = actual.astype(int).flatten()
 actual = (lb.inverse_transform(actual))
 
