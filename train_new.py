@@ -128,7 +128,7 @@ lb = LabelBinarizer()
 encodedLabels = lb.fit_transform(labels)
 print('[INFO] Unique labels:', len(lb.classes_))
 
-(trainX, testX, trainY, testY) = train_test_split(soundData, encodedLabels, test_size=0.2, random_state=61)
+(trainX, testX, trainY, testY) = train_test_split(soundData, encodedLabels, test_size=0.1, random_state=61)
 
 trainX = np.expand_dims(trainX, axis = 3)
 testX = np.expand_dims(testX, axis = 3)

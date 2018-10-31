@@ -1,26 +1,25 @@
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
 from keras.models import load_model
-import librosa
+from pyAudioAnalysis import audioFeatureExtraction, audioBasicIO
 import pandas as pd
 import numpy as np
 import pickle
 import os
 
+FRAME_SIZE = 5.e-2  # msecs
+
 def classifyEmotion(filePath):
     modelPath = 'emotion/emo_nn.model'
     labelPath = 'emotion/lb.pickle'
     print("[INFO] Loading sound file")
-    sound = pd.DataFrame(columns=['feature'])
-    X, sample_rate = librosa.load(filePath, res_type='kaiser_fast',duration=2.5,sr=22050*2,offset=0.5)
-    sample_rate = np.array(sample_rate)
-    mfccs = np.mean(librosa.feature.mfcc(y=X, 
-                                        sr=sample_rate, 
-                                        n_mfcc=13),
-                    axis=0)
-    feature = mfccs
-
-    sound.loc[0] = [feature]
-    flatDf = pd.DataFrame(sound['feature'].values.tolist())
-    inputArray = np.expand_dims(flatDf, axis=2)
+    [Fs, x] = audioBasicIO.readAudioFile(filePath)
+    x = audioBasicIO.stereo2mono(x)
+    features, _ = audioFeatureExtraction.stFeatureExtraction(
+        x, Fs, FRAME_SIZE * Fs, FRAME_SIZE / 2 * Fs)
+    inputArray = np.expand_dims(features, axis=3)
 
     print("[INFO] loading network...")
     model = load_model(modelPath)
