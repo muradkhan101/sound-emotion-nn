@@ -41,7 +41,7 @@ print('[INFO] Required Shape:', required_input_shape)
 print('[INFO] Actual shape:', inputArray.shape)
 # Adjust input to match required shape
 if required_input_shape[1] > inputArray.shape[1]:
-    zerosArray = np.zeros((1, required_input_shape[1] - inputArray.shape[1], 1), dtype=inputArray.dtype)
+    zerosArray = np.zeros((required_input_shape[0], required_input_shape[1] - inputArray.shape[1], 1), dtype=inputArray.dtype)
     inputArray = np.concatenate( (inputArray, zerosArray), axis = 1)
 else:
     inputArray = inputArray[:, :required_input_shape[1], :]
