@@ -28,6 +28,7 @@ print("[INFO] Loading sound file")
 x = audioBasicIO.stereo2mono(x)
 features, _ = audioFeatureExtraction.stFeatureExtraction(
     x, Fs, FRAME_SIZE * Fs, FRAME_SIZE / 2 * Fs)
+
 inputArray = np.expand_dims(features, axis=3)
 
 print("[INFO] loading network...")
@@ -39,15 +40,15 @@ required_input_shape = first_layer.get_config()['batch_input_shape'][1:]
 print('[INFO] Required Shape:', required_input_shape)
 print('[INFO] Actual shape:', inputArray.shape)
 # Adjust input to match required shape
-if required_input_shape[0] > inputArray.shape[1]:
-    zerosArray = np.zeros((1, required_input_shape[0] - inputArray.shape[1], 1), dtype=inputArray.dtype)
+if required_input_shape[1] > inputArray.shape[1]:
+    zerosArray = np.zeros((1, required_input_shape[1] - inputArray.shape[1], 1), dtype=inputArray.dtype)
     inputArray = np.concatenate( (inputArray, zerosArray), axis = 1)
 else:
-    inputArray = inputArray[:required_input_shape[0]]
+    inputArray = inputArray[:, :required_input_shape[1], :]
 
-
+print('[INFO] Post processed actual shape:', inputArray.shape)
 print("[INFO] classifying sound...")
-proba = model.predict(inputArray)[0]
+proba = model.predict(np.expand_dims(inputArray, axis=0))[0]
 idx = np.argmax(proba)
 label = lb.classes_[idx]
 
