@@ -11,9 +11,17 @@ import os
 
 FRAME_SIZE = 5.e-2  # msecs
 
+modelPath = 'emotion/emo_nn.model'
+labelPath = 'emotion/lb.pickle'
+print("[INFO] loading network...")
+lb = pickle.loads(open(labelPath, "rb").read())
+model = load_model(modelPath)
+
+first_layer = model.get_layer(index=0)
+model._make_predict_function()
+print('[INFO] Emotion label model loaded')
+
 def classifyEmotion(filePath):
-    modelPath = 'emotion/emo_nn.model'
-    labelPath = 'emotion/lb.pickle'
     print("[INFO] Loading sound file")
     [Fs, x] = audioBasicIO.readAudioFile(filePath)
     x = audioBasicIO.stereo2mono(x)
@@ -21,9 +29,6 @@ def classifyEmotion(filePath):
         x, Fs, FRAME_SIZE * Fs, FRAME_SIZE / 2 * Fs)
     inputArray = np.expand_dims(features, axis=3)
 
-    print("[INFO] loading network...")
-    model = load_model(modelPath)
-    lb = pickle.loads(open(labelPath, "rb").read())
 
     first_layer = model.get_layer(index=0)
     required_input_shape = first_layer.get_config()['batch_input_shape'][1:]
