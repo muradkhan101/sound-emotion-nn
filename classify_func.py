@@ -1,13 +1,9 @@
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 from keras.models import load_model
 from pyAudioAnalysis import audioFeatureExtraction, audioBasicIO
 import pandas as pd
 import numpy as np
 import pickle
-import os
 
 FRAME_SIZE = 5.e-2  # msecs
 
